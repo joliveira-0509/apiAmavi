@@ -13,14 +13,14 @@ app.post("/usuarios", async (req, res) => {
     const telefone = req.body.telefone;
     const email = req.body.email;
 
-    const erros = validarDados(nome, telefone, email);
+    const erros = validarDados(nome, /* telefone, */ email);
 
-    if (erros.length > 0) {
-        return res.status(400).send({ mensagem: "Erro na validação", erros });
+    if (erros.status) {
+        await erros(nome, email)
+        return res.status(204).end
+    } else {
+        return res.status(400).send({ mensagem: usuarioValido.mensagem });
     }
-
-    await cadastro(nome, telefone, email);
-    res.status(204).send({ mensagem: "Cadastro realizado com sucesso" });
 });
 
 app.listen(9000, async () => {

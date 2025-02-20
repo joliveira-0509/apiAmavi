@@ -1,4 +1,4 @@
-// validacao/validacao.js
+/* // validacao/validacao.js
 export async function validarDados(nome, telefone, email) {
     const erros = [];
 
@@ -20,4 +20,35 @@ export async function validarDados(nome, telefone, email) {
     }
 
     return erros;
+}
+ */
+
+function validarNome(nome){
+    const regexNome = /^[a-zA-ZÀ-ÿ\S\-']+$/;
+
+    const isvalid = nome.length >=2 && regexNome.test(nome);
+
+    return isvalid;
+
+}
+
+function validarEmail(email){
+    const regexEmail =/^[^\s@]+@[^\s@]+\.[^\s@]=$/;
+
+    const isvalid = regexEmail.test(email);
+
+    return isvalid;
+}
+
+export function validarDados(nome,email){
+    const nomeValido = validarNome(nome);
+    const emailValido = validarEmail(email);
+
+    const usuarioValido = nomeValido && emailValido;
+
+    if (usuarioValido) {
+        return{status:true, mensagem:''}
+    } else {
+        return{status:false, mensagem:'nome ou email inválido'}
+    }
 }
